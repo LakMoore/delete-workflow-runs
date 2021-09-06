@@ -1,12 +1,19 @@
 async function run() {
+  console.log("1");
   const core = require("@actions/core");
+  console.log("2");
   try {
     // Fetch all the inputs
     const token = core.getInput('token');
+    console.log("3");
     const repository = core.getInput('repository');
+    console.log("4");
     const retain_days = core.getInput('retain_days');
+    console.log("5");
     const keep_minimum_runs = core.getInput('keep_minimum_runs');
-    
+    console.log("6");
+
+
     // Split the input 'repository' (format {owner}/{repo}) to be {owner} and {repo}
     const splitRepository = repository.split('/');
     if (splitRepository.length !== 2 || !splitRepository[0] || !splitRepository[1]) {
