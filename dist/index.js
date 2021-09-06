@@ -1,17 +1,11 @@
 async function run() {
-  console.log("1");
   const core = require("@actions/core");
-  console.log("2");
   try {
     // Fetch all the inputs
     const token = core.getInput('token');
-    console.log("3");
     const repository = core.getInput('repository');
-    console.log("4");
     const retain_days = core.getInput('retain_days');
-    console.log("5");
     const keep_minimum_runs = core.getInput('keep_minimum_runs');
-    console.log("6");
 
 
     // Split the input 'repository' (format {owner}/{repo}) to be {owner} and {repo}
@@ -21,11 +15,16 @@ async function run() {
     }
     const repo_owner = splitRepository[0];
     const repo_name = splitRepository[1];
-    
+
+    console.log(repo_owner);
+    console.log(repo_name);
+
     var page_number = 1;
     var del_runs = new Array();
     const { Octokit } = require("@octokit/rest");
+    console.log("1");
     const octokit = new Octokit({ auth: token });
+    console.log("2");
 
     while (true) {
       // Execute the API "List workflow runs for a repository", see 'https://octokit.github.io/rest.js/v18#actions-list-workflow-runs-for-repo'     
