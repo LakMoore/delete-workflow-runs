@@ -67,7 +67,7 @@ async function run() {
     }
     else {
       console.log(`arr_length = ${arr_length}`);
-      del_runs.sort((a, b) => b.created_at - a.created_at);
+      del_runs.sort((a, b) => a.created_at - b.created_at);
       for (index = 0; index < arr_length; index++) {
         // Execute the API "Delete a workflow run", see 'https://octokit.github.io/rest.js/v18#actions-delete-workflow-run'
         const run_id = del_runs[index];
