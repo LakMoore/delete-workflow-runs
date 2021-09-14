@@ -47,7 +47,7 @@ async function run() {
           var ELAPSE_days = ELAPSE_ms / (1000 * 3600 * 24);
           
           if (ELAPSE_days >= retain_days) {
-            del_runs.push(response.data.workflow_runs[index]);
+            del_runs.push(response.data.workflow_runs[index].id);
           }
         }
       }
@@ -60,23 +60,15 @@ async function run() {
       console.log(`page_number = ${page_number}`);
     }
 
-    const arr_length = del_runs.length - keep_minimum_runs;
     var succeeded = 0;
-    if (arr_length < 1) {
+    if (del_runs.length <= keep_minimum_runs) {
       console.log(`No workflow runs need to be deleted.`);
     }
     else {
-      console.log(`arr_length = ${arr_length}`);
-      console.log("Pre Sort");
-      console.log(JSON.stringify(del_runs));
-      del_runs = del_runs.sort((a, b) => a.created_at - b.created_at);
-      console.log("Post Sort");
-      console.log(JSON.stringify(del_runs));
-      for (index = 0; index < arr_length; index++) {
+      for (index = del_runs.length - 1; index > keep_minimum_runs; index--) {
         // Execute the API "Delete a workflow run", see 'https://octokit.github.io/rest.js/v18#actions-delete-workflow-run'
-        const run_id = del_runs[index].id;
+        const run_id = del_runs[index];
         try {
-          console.log(`created_at = ${del_runs[index].created_at} | ${Date(del_runs[index].created_at)}`);
           await octokit.actions.deleteWorkflowRun({
             owner: repo_owner,
             repo: repo_name,
