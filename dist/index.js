@@ -47,7 +47,7 @@ async function run() {
           var ELAPSE_days = ELAPSE_ms / (1000 * 3600 * 24);
           
           if (ELAPSE_days >= retain_days) {
-            del_runs.push(response.data.workflow_runs[index].id);
+            del_runs.push(response.data.workflow_runs[index]);
           }
         }
       }
@@ -70,7 +70,7 @@ async function run() {
       del_runs.sort((a, b) => b.created_at - a.created_at);
       for (index = 0; index < arr_length; index++) {
         // Execute the API "Delete a workflow run", see 'https://octokit.github.io/rest.js/v18#actions-delete-workflow-run'
-        const run_id = del_runs[index];
+        const run_id = del_runs[index].id;
         try {
           console.log(`created_at = ${del_runs[index].created_at}`);
           await octokit.actions.deleteWorkflowRun({
